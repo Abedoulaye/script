@@ -33,7 +33,7 @@ sudo pacman -S --needed waybar fuzzel mako hyprlock hypridle alacritty \
 
 # NEW STUFF
 
-cat > ~/.config/hypr/mine.lua << 'EOF'
+cat >> ~/.config/hypr/hyprland.lua << 'EOF'
 local term = "alacritty"
 local menu = "fuzzel"
 
