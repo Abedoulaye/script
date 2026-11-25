@@ -33,7 +33,6 @@ sudo pacman -S --needed waybar fuzzel mako hyprlock hypridle alacritty \
 
 # NEW STUFF
 
-cp ~/.config/hypr/hyprland.lua ~/.config/hypr/hyprland.lua.bak
 cat > ~/.config/hypr/mine.lua << 'EOF'
 local term = "alacritty"
 local menu = "fuzzel"
@@ -71,21 +70,32 @@ hl.config({
   dwindle = { preserve_split = true },
 })
 
+-- Core bindings
 hl.bind("SUPER + Return", hl.dsp.exec_cmd(term))
 hl.bind("SUPER + Space", hl.dsp.exec_cmd(menu))
 hl.bind("SUPER + B", hl.dsp.exec_cmd("firefox"))
 hl.bind("SUPER + F", hl.dsp.exec_cmd("nautilus"))
-hl.bind("SUPER + SHIFT + L", hl.dsp.exec_cmd("hyprlock"))
+hl.bind("SUPER + W", hl.dsp.window.close())
 hl.bind("SUPER + T", hl.dsp.window.float({ action = "toggle" }))
+hl.bind("SUPER + V", hl.dsp.window.fullscreen())
+hl.bind("SUPER + J", hl.dsp.layout("togglesplit"))
+hl.bind("SUPER + L", hl.dsp.exec_cmd("hyprlock"))
+hl.bind("SUPER + Escape", hl.dsp.exit())
+hl.bind("SUPER + C", hl.dsp.exec_cmd("cliphist list | fuzzel --dmenu | cliphist decode | wl-copy"))
 hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd([[grim -g "$(slurp)" - | wl-copy]]))
-hl.bind("SUPER + V", hl.dsp.exec_cmd([[cliphist list | fuzzel --dmenu | cliphist decode | wl-copy]]))
 
+-- Mouse bindings
 hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
+-- Media keys
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"))
 hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"))
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"))
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"))
-EOF
-echo 'require("mine")' >> ~/.config/hypr/hyprland.lua
+
+-- Focus bindings
+hl.bind("SUPER + left", hl.dsp.window.move_focus("l"))
+hl.bind("SUPER + right", hl.dsp.window.move_focus("r"))
+hl.bind("SUPER + up", hl.dsp.window.move_focus("u"))
+hl.bind("SUPER + down", hl.dsp.window.move_focus("d"))
